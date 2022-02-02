@@ -7,7 +7,6 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {items[0].quality}.from(5).to(6)
-      expect(items[0].quality).to eq(6)
     end
   end
 
@@ -17,27 +16,32 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to_not change {items[0].quality}.from(1)
-      expect(items[0].quality).to eq(1)
     end
   end
 
   context "Backstage passes" do
-    it "increases by 2 when there are 10 days or less" do
-      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 10, 10)]
+    it "increases by 1 when more than 10 days" do
+      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 11, 1)]
       subject = GildedRose.new(items)
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(10).to(12)
-      expect(items[0].quality).to eq(12)
+      }.to change {items[0].quality}.from(1).to(2)
+    end
+
+    it "increases by 2 when there are 10 days or less" do
+      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 10, 1)]
+      subject = GildedRose.new(items)
+      expect { 
+        GildedRose.new(items).update_quality() 
+      }.to change {items[0].quality}.from(1).to(3)
     end
 
     it "increases by 3 when there are 5 days or less" do
-      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 5, 10)]
+      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 5, 1)]
       subject = GildedRose.new(items)
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(10).to(13)
-      expect(items[0].quality).to eq(13)
+      }.to change {items[0].quality}.from(1).to(4)
     end
 
     it "drops to 0 after the sell date" do
@@ -46,12 +50,11 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {items[0].quality}.from(10).to(0)
-      expect(items[0].quality).to eq(0)
     end
   end
 
   context "Quality" do 
-    it "quality degredaes x2 after sell by date" do
+    it "quality degredes x2 after sell by date" do
       items = [Item.new("Test", 0, 10)]
       expect { 
         GildedRose.new(items).update_quality() 
