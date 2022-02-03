@@ -12,7 +12,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@aged_brie.quality}.from(5).to(6)
-      expect(@aged_brie.sell_in).to eq(4)
+      .and change {@aged_brie.sell_in}.from(5).to(4)
     end
 
     it "increases in quality by 2 after sell_in reaches 0" do
@@ -22,7 +22,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@aged_brie.quality}.from(5).to(7)
-      expect(@aged_brie.sell_in).to eq(-1)
+      .and change {@aged_brie.sell_in}.from(0).to(-1)
     end
 
     it "increases in quality by 2 after sell_in is below 0" do
@@ -32,7 +32,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@aged_brie.quality}.from(5).to(7)
-      expect(@aged_brie.sell_in).to eq(-2)
+      .and change {@aged_brie.sell_in}.from(-1).to(-2)
     end
   end
 
@@ -69,7 +69,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@backstage.quality}.from(10).to(11)
-      expect(@backstage.sell_in).to eq(10)
+      .and change {@backstage.sell_in}.from(11).to(10)
     end
 
     it "increases by 2 when there are 10 days or less" do
@@ -79,7 +79,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@backstage.quality}.from(10).to(12)
-      expect(@backstage.sell_in).to eq(9)
+      .and change {@backstage.sell_in}.from(10).to(9)
     end
 
     it "increases by 3 when there are 5 days or less" do
@@ -89,7 +89,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@backstage.quality}.from(10).to(13)
-      expect(@backstage.sell_in).to eq(4)
+      .and change {@backstage.sell_in}.from(5).to(4)
     end
 
     it "drops to 0 after the sell date" do
@@ -99,7 +99,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@backstage.quality}.from(10).to(0)
-      expect(@backstage.sell_in).to eq(-1)
+      .and change {@backstage.sell_in}.from(0).to(-1)
     end
   end
 
@@ -114,7 +114,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@test.quality}.from(10).to(9)
-      expect(@test.sell_in).to eq(9)
+      .and change {@test.sell_in}.from(10).to(9)
     end
 
     it "quality degrades by 2 after sell by date" do
@@ -124,7 +124,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@test.quality}.from(10).to(8)
-      expect(@test.sell_in).to eq(-1)
+      .and change {@test.sell_in}.from(0).to(-1)
     end
 
     it "is never negative" do
@@ -144,6 +144,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to_not change {aged_brie.quality}.from(50)
+      expect(aged_brie.sell_in).to eq(4)
     end
   end
 

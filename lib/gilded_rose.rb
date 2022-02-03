@@ -25,7 +25,7 @@ class GildedRose
             item.quality += 1
           end
 
-          # update quality of backstage pass
+        # update quality of backstage pass
         elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
           if item.sell_in <= 0 && item.quality > 0
             update_sell_in(item)
@@ -40,8 +40,6 @@ class GildedRose
             item.quality = item.quality + 1 if item.quality < 50
           end
         end
-
-        
       end
       # decreases sell_in for all but Sulfuras 
       update_sell_in(item)
