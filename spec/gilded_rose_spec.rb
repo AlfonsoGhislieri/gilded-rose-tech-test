@@ -12,6 +12,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@aged_brie.quality}.from(5).to(6)
+      expect(@aged_brie.sell_in).to eq(4)
     end
 
     it "increases in quality by 2 after sell_in reaches 0" do
@@ -21,6 +22,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@aged_brie.quality}.from(5).to(7)
+      expect(@aged_brie.sell_in).to eq(-1)
     end
 
     it "increases in quality by 2 after sell_in is below 0" do
@@ -30,6 +32,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@aged_brie.quality}.from(5).to(7)
+      expect(@aged_brie.sell_in).to eq(-2)
     end
   end
 
@@ -66,6 +69,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@backstage.quality}.from(10).to(11)
+      expect(@backstage.sell_in).to eq(10)
     end
 
     it "increases by 2 when there are 10 days or less" do
@@ -75,6 +79,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@backstage.quality}.from(10).to(12)
+      expect(@backstage.sell_in).to eq(9)
     end
 
     it "increases by 3 when there are 5 days or less" do
@@ -84,6 +89,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@backstage.quality}.from(10).to(13)
+      expect(@backstage.sell_in).to eq(4)
     end
 
     it "drops to 0 after the sell date" do
@@ -93,6 +99,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@backstage.quality}.from(10).to(0)
+      expect(@backstage.sell_in).to eq(-1)
     end
   end
 
@@ -101,7 +108,15 @@ describe GildedRose do
       @test = Item.new("Test",10,10)
     end
 
-    it "quality degrades x2 after sell by date" do
+    it "quality degrades by 1 normally" do
+      items = [@test]
+      
+      expect { 
+        GildedRose.new(items).update_quality() 
+      }.to change {@test.quality}.from(10).to(9)
+    end
+
+    it "quality degrades by 2 after sell by date" do
       @test.sell_in = 0
       items = [@test]
       
