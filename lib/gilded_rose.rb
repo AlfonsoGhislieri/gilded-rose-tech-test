@@ -55,7 +55,6 @@ class GildedRose
         else
           # seems redundant?
           if item.quality < 50
-            p 'hello'
             item.quality = item.quality + 1
           end
         end
