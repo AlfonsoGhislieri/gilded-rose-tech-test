@@ -114,6 +114,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@test.quality}.from(10).to(9)
+      expect(@test.sell_in).to eq(9)
     end
 
     it "quality degrades by 2 after sell by date" do
@@ -123,6 +124,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to change {@test.quality}.from(10).to(8)
+      expect(@test.sell_in).to eq(-1)
     end
 
     it "is never negative" do
@@ -132,6 +134,7 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to_not change {@test.quality}.from(0)
+      expect(@test.sell_in).to eq(9)
     end
 
     it "can never increase to more than 50" do
