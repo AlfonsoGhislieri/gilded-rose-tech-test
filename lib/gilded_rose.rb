@@ -1,3 +1,5 @@
+require_relative('item.rb')
+
 class GildedRose
 
   def initialize(items)
@@ -6,6 +8,7 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
+      #check for everything thats not Aged brie, pass or sulfuras --> lowers quality
       if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
         if item.quality > 0
           if item.name != "Sulfuras, Hand of Ragnaros"
@@ -13,7 +16,9 @@ class GildedRose
           end
         end
       else
+        # check for backstage pass and increase value depending on sell_in date
         if item.quality < 50
+          # raises value of brie also and backstage
           item.quality = item.quality + 1
           if item.name == "Backstage passes to a TAFKAL80ETC concert"
             if item.sell_in < 11
@@ -29,40 +34,31 @@ class GildedRose
           end
         end
       end
+      # decreases sell_in for all but Sulfuras 
       if item.name != "Sulfuras, Hand of Ragnaros"
         item.sell_in = item.sell_in - 1
       end
+      # sell in below 0
       if item.sell_in < 0
         if item.name != "Aged Brie"
           if item.name != "Backstage passes to a TAFKAL80ETC concert"
             if item.quality > 0
               if item.name != "Sulfuras, Hand of Ragnaros"
+                # lowers item quality of items
                 item.quality = item.quality - 1
               end
             end
+            # backstage pass quality becomes 0 after sell_in date reaches 0
           else
             item.quality = item.quality - item.quality
           end
         else
+          # seems redundant?
           if item.quality < 50
             item.quality = item.quality + 1
           end
         end
       end
     end
-  end
-end
-
-class Item
-  attr_accessor :name, :sell_in, :quality
-
-  def initialize(name, sell_in, quality)
-    @name = name
-    @sell_in = sell_in
-    @quality = quality
-  end
-
-  def to_s()
-    "#{@name}, #{@sell_in}, #{@quality}"
   end
 end

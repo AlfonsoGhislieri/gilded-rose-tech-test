@@ -2,7 +2,7 @@ require('gilded_rose')
 
 describe GildedRose do
   context "Aged Brie" do
-    it "increases in quality as it gets older" do
+    it "increases in quality as sell_in decreases" do
       items = [Item.new("Aged Brie", 5, 5)]
       expect { 
         GildedRose.new(items).update_quality() 
@@ -16,6 +16,13 @@ describe GildedRose do
       expect { 
         GildedRose.new(items).update_quality() 
       }.to_not change {items[0].quality}.from(1)
+    end
+
+    it "sell_in never decreases" do
+      items = [Item.new("Sulfuras, Hand of Ragnaros", 1, 1)]
+      expect { 
+        GildedRose.new(items).update_quality() 
+      }.to_not change {items[0].sell_in}.from(1)
     end
   end
 
@@ -53,8 +60,8 @@ describe GildedRose do
     end
   end
 
-  context "Quality" do 
-    it "quality degredes x2 after sell by date" do
+  context "Generic Quality" do 
+    it "quality degrades x2 after sell by date" do
       items = [Item.new("Test", 0, 10)]
       expect { 
         GildedRose.new(items).update_quality() 
@@ -70,7 +77,7 @@ describe GildedRose do
       expect(items[0].quality).to eq(0)
     end
 
-    it "is can never increase to more than 50" do
+    it "can never increase to more than 50" do
       items = [Item.new("Aged Brie", 5, 50)]
       expect { 
         GildedRose.new(items).update_quality() 
