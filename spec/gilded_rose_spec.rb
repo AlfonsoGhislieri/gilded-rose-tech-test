@@ -1,122 +1,140 @@
 require('gilded_rose')
 
-class ItemDouble
-  attr_accessor :name, :sell_in, :quality
-  def initialize(name,sell_in,quality)
-    @name = name
-    @sell_in = sell_in
-    @quality = quality
-  end
-end
-
 describe GildedRose do
-  
   context "Aged Brie" do
-    
-    it "increases in quality as sell_in decreases" do
-      items = [ItemDouble.new("Aged Brie",5,5)]
+    before do 
+      @aged_brie = Item.new("Aged Brie",5,5)
+    end
+
+    it "increases in quality as sell_in decreases" do      
+      items = [@aged_brie]
 
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(5).to(6)
+      }.to change {@aged_brie.quality}.from(5).to(6)
     end
 
     it "increases in quality by 2 after sell_in reaches 0" do
-      items = [ItemDouble.new("Aged Brie", 0, 5)]
+      @aged_brie.sell_in = 0
+      items = [@aged_brie]
+
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(5).to(7)
+      }.to change {@aged_brie.quality}.from(5).to(7)
     end
 
     it "increases in quality by 2 after sell_in is below 0" do
-      items = [ItemDouble.new("Aged Brie", 0, 5)]
+      @aged_brie.sell_in = -1
+      items = [@aged_brie]
+
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(5).to(7)
+      }.to change {@aged_brie.quality}.from(5).to(7)
     end
   end
 
   context "Sulfuras, Hand of Ragnaros" do
+    before do 
+      @sulfuras = Item.new("Sulfuras, Hand of Ragnaros",1,1)
+    end
+
     it "never decreases in quality" do
-      items = [ItemDouble.new("Sulfuras, Hand of Ragnaros", 1, 1)]
+      items = [@sulfuras]
+
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to_not change {items[0].quality}.from(1)
+      }.to_not change {@sulfuras.quality}.from(1)
     end
 
     it "sell_in never decreases" do
-      items = [ItemDouble.new("Sulfuras, Hand of Ragnaros", 1, 1)]
+      items = [@sulfuras]
+
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to_not change {items[0].sell_in}.from(1)
+      }.to_not change {@sulfuras.sell_in}.from(1)
     end
   end
 
   context "Backstage passes" do
+    before do 
+      @backstage = Item.new("Backstage passes to a TAFKAL80ETC concert",11,10)
+    end
+
     it "increases by 1 when more than 10 days" do
-      items = [ItemDouble.new("Backstage passes to a TAFKAL80ETC concert", 11, 1)]
-      subject = GildedRose.new(items)
+      items = [@backstage]
+
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(1).to(2)
+      }.to change {@backstage.quality}.from(10).to(11)
     end
 
     it "increases by 2 when there are 10 days or less" do
-      items = [ItemDouble.new("Backstage passes to a TAFKAL80ETC concert", 10, 1)]
-      subject = GildedRose.new(items)
+      @backstage.sell_in = 10
+      items = [@backstage]
+
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(1).to(3)
+      }.to change {@backstage.quality}.from(10).to(12)
     end
 
     it "increases by 3 when there are 5 days or less" do
-      items = [ItemDouble.new("Backstage passes to a TAFKAL80ETC concert", 5, 1)]
-      subject = GildedRose.new(items)
+      @backstage.sell_in = 5
+      items = [@backstage]
+
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(1).to(4)
+      }.to change {@backstage.quality}.from(10).to(13)
     end
 
     it "drops to 0 after the sell date" do
-      items = [ItemDouble.new("Backstage passes to a TAFKAL80ETC concert", 0, 10)]
-      subject = GildedRose.new(items)
+      @backstage.sell_in = 0
+      items = [@backstage]
+
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(10).to(0)
+      }.to change {@backstage.quality}.from(10).to(0)
     end
   end
 
-  context "Generic Quality" do 
+  context "Generic Quality" do
+    before do 
+      @test = Item.new("Test",10,10)
+    end
+
     it "quality degrades x2 after sell by date" do
-      items = [ItemDouble.new("Test", 0, 10)]
+      @test.sell_in = 0
+      items = [@test]
+      
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to change {items[0].quality}.from(10).to(8)
-      expect(items[0].quality).to eq(8)
+      }.to change {@test.quality}.from(10).to(8)
     end
 
     it "is never negative" do
-      items = [ItemDouble.new("Test", 0, 0)]
+      @test.quality = 0
+      items = [@test]
+      
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to_not change {items[0].quality}.from(0)
-      expect(items[0].quality).to eq(0)
+      }.to_not change {@test.quality}.from(0)
     end
 
     it "can never increase to more than 50" do
-      items = [ItemDouble.new("Aged Brie", 5, 50)]
+      aged_brie = Item.new("Aged Brie", 5, 50)
+      items = [aged_brie]
+     
       expect { 
         GildedRose.new(items).update_quality() 
-      }.to_not change {items[0].quality}.from(50)
-      expect(items[0].quality).to eq(50)
+      }.to_not change {aged_brie.quality}.from(50)
     end
   end
 
   context "#update_quality" do
     it "does not change the name" do
-      items = [ItemDouble.new("foo", 0, 0)]
+      test_item = Item.new("foo", 0, 0)
+      items = [test_item]
       GildedRose.new(items).update_quality()
-      expect(items[0].name).to eq "foo"
+      expect(test_item.name).to eq "foo"
     end
   end
 end
