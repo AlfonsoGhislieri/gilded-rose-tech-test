@@ -38,7 +38,7 @@ describe GildedRose do
       @sulfuras = Item.new("Sulfuras, Hand of Ragnaros",1,1)
     end
 
-    it "never decreases in quality" do
+    it "never changes in quality" do
       items = [@sulfuras]
 
       expect { 
