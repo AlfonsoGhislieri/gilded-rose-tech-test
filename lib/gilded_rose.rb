@@ -18,7 +18,7 @@ class GildedRose
       else
         # check for backstage pass and increase value depending on sell_in date
         if item.quality < 50
-          # raises value of brie also and backstage
+          # raises value of brie and backstage
           item.quality = item.quality + 1
           if item.name == "Backstage passes to a TAFKAL80ETC concert"
             if item.sell_in < 11
@@ -55,6 +55,7 @@ class GildedRose
         else
           # seems redundant?
           if item.quality < 50
+            p 'hello'
             item.quality = item.quality + 1
           end
         end

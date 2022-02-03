@@ -8,6 +8,20 @@ describe GildedRose do
         GildedRose.new(items).update_quality() 
       }.to change {items[0].quality}.from(5).to(6)
     end
+
+    it "increases in quality by 2 after sell_in reaches 0" do
+      items = [Item.new("Aged Brie", 0, 5)]
+      expect { 
+        GildedRose.new(items).update_quality() 
+      }.to change {items[0].quality}.from(5).to(7)
+    end
+
+    it "increases in quality by 2 after sell_in is below 0" do
+      items = [Item.new("Aged Brie", 0, 5)]
+      expect { 
+        GildedRose.new(items).update_quality() 
+      }.to change {items[0].quality}.from(5).to(7)
+    end
   end
 
   context "Sulfuras, Hand of Ragnaros" do
