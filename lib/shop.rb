@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require('item')
 require('items/aged_brie')
 require('items/backstage_pass')
@@ -11,21 +13,22 @@ class Shop
 
   def update_quality
     @items.each do |item|
-      return if item.name == 'Sulfuras, Hand of Ragnaros'
+      next if item.name == 'Sulfuras, Hand of Ragnaros'
 
       update_item_quality(item)
-      update_item_sell_in(item) 
+      update_item_sell_in(item)
     end
   end
 
   private
 
   def update_item_quality(item)
-    if item.name == 'Aged Brie'
+    case item.name
+    when 'Aged Brie'
       AgedBrie.new(item).update
-    elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
+    when 'Backstage passes to a TAFKAL80ETC concert'
       BackstagePass.new(item).update
-    elsif item.name == 'Conjured Mana Cake'
+    when 'Conjured Mana Cake'
       ConjuredManaCake.new(item).update
     else
       GenericItem.new(item).update
@@ -33,6 +36,6 @@ class Shop
   end
 
   def update_item_sell_in(item)
-    item.sell_in -= 1 
+    item.sell_in -= 1
   end
 end

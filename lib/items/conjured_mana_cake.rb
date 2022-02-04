@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require('helper_module')
 
 class ConjuredManaCake
@@ -6,7 +8,7 @@ class ConjuredManaCake
     @item = item
   end
 
-  def update 
+  def update
     if expired?(@item)
       4.times { decrease_quality(@item) }
     else

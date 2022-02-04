@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require('shop')
 
 describe Shop do
@@ -34,7 +36,7 @@ describe Shop do
       end.to change { @aged_brie.quality }.from(5).to(7)
                                           .and change { @aged_brie.sell_in }.from(-1).to(-2)
     end
-    
+
     it 'can never increase to more than 50' do
       aged_brie = Item.new('Aged Brie', 5, 50)
       items = [aged_brie]
@@ -115,7 +117,7 @@ describe Shop do
     it 'can never increase to more than 50' do
       @backstage.quality = 50
       @backstage.sell_in = 11
-      
+
       items = [@backstage]
 
       expect do
@@ -161,38 +163,36 @@ describe Shop do
   end
 
   context 'Conjured Manacake' do
-    before  do
-      @conjured_mana_cake = Item.new("Conjured Mana Cake",10,10)
+    before do
+      @conjured_mana_cake = Item.new('Conjured Mana Cake', 10, 10)
     end
-    it "quality drops by 2 when sell_in above 0" do
+    it 'quality drops by 2 when sell_in above 0' do
       items = [@conjured_mana_cake]
 
       expect do
         Shop.new(items).update_quality
       end.to change { @conjured_mana_cake.quality }.from(10).to(8)
-                                          .and change { @conjured_mana_cake.sell_in }.from(10).to(9)
-      
+                                                   .and change { @conjured_mana_cake.sell_in }.from(10).to(9)
     end
 
-    it "quality drops by 4 when sell_in below 0" do
+    it 'quality drops by 4 when sell_in below 0' do
       @conjured_mana_cake.sell_in = 0
       items = [@conjured_mana_cake]
 
       expect do
         Shop.new(items).update_quality
       end.to change { @conjured_mana_cake.quality }.from(10).to(6)
-                                          .and change { @conjured_mana_cake.sell_in }.from(0).to(-1)
+                                                   .and change { @conjured_mana_cake.sell_in }.from(0).to(-1)
     end
 
-    it "quality doesnt drop below 0" do
+    it 'quality doesnt drop below 0' do
       @conjured_mana_cake.quality = 1
       items = [@conjured_mana_cake]
 
       expect do
         Shop.new(items).update_quality
       end.to change { @conjured_mana_cake.quality }.from(1).to(0)
-                                          .and change { @conjured_mana_cake.sell_in }.from(10).to(9)
-      
+                                                   .and change { @conjured_mana_cake.sell_in }.from(10).to(9)
     end
   end
 
