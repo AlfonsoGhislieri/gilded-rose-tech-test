@@ -12,41 +12,31 @@ class GildedRose
     
     @items.each do |item|
       # check for not a special item
-      if not_special_item?(item)
-        decrease_value(item)
-        decrease_value(item) if expired?(item)
+      return if item.name == 'Sulfuras, Hand of Ragnaros'
 
-      elsif item.name == 'Aged Brie'
-        increase_value(item)
-        increase_value(item) if expired?(item)
-
-      # update quality of backstage pass
+      if item.name == 'Aged Brie'
+        increase_quality(item)
+        increase_quality(item) if expired?(item)
       elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
-        if expired?(item) && valid_item_quality?(item)
-          update_sell_in(item)
-          return item.quality = 0
-        end
-        if item.sell_in < 11 && (item.quality < MAX_QUALITY)
-          item.quality += 1
-          if item.sell_in < 6 && (item.quality < MAX_QUALITY)
-            item.quality += 1
-          end
-        end
-
-        item.quality +=1
+        increase_quality(item)
+        increase_quality(item) if item.sell_in < 11
+        increase_quality(item) if item.sell_in < 6 
+        item.quality = 0 if expired?(item)
+      else
+        decrease_quality(item)
+        decrease_quality(item) if expired?(item)
       end
-      # decreases sell_in for all but Sulfuras
-      update_sell_in(item) unless item.name == 'Sulfuras, Hand of Ragnaros'
+      update_sell_in(item) 
     end
   end
 
   private
 
-  def decrease_value(item)
+  def decrease_quality(item)
     item.quality -= 1 if item.quality > MIN_QUALITY
   end
 
-  def increase_value(item)
+  def increase_quality(item)
     item.quality += 1 if item.quality < MAX_QUALITY
   end
 
@@ -54,15 +44,7 @@ class GildedRose
     item.sell_in -= 1 
   end
 
-  def valid_item_quality?(item)
-    item.quality < MAX_QUALITY && item.quality > MIN_QUALITY
-  end
-
   def expired?(item)
     item.sell_in <= 0
-  end
-
-  def not_special_item?(item)
-    @special_items.none?(item.name)
   end
 end
