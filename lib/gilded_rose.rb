@@ -10,15 +10,14 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
-      if item.quality < MAX_QUALITY && item.quality > MIN_QUALITY
+      if valid_item_quality?(item)
         #check for not a special item
         if !@special_items.any?(item.name)
-          item.quality = item.quality - 1
-          if item.sell_in <= 0 && item.quality > MIN_QUALITY
-            item.quality = item.quality - 1
+          item.quality -= 1
+          if item.sell_in <= 0 && valid_item_quality?(item)
+            item.quality -= 1
           end
 
-          # raises value of brie 
         elsif item.name == "Aged Brie"
           item.sell_in <= 0 ? item.quality += 2 : item.quality += 1
 
@@ -47,5 +46,9 @@ class GildedRose
 
   def update_sell_in(item)
     item.sell_in -= 1 unless item.name == "Sulfuras, Hand of Ragnaros"
+  end
+
+  def valid_item_quality?(item)
+    item.quality < MAX_QUALITY && item.quality > MIN_QUALITY
   end
 end
