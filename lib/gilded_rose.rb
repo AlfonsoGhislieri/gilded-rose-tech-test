@@ -1,6 +1,7 @@
 require('item')
 require('aged_brie')
 require('backstage_pass')
+require('generic_item')
 
 class GildedRose
   MAX_QUALITY = 50
@@ -19,8 +20,7 @@ class GildedRose
       elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
         BackstagePass.new(item).update
       else
-        decrease_quality(item)
-        decrease_quality(item) if expired?(item)
+        GenericItem.new(item).update
       end
       update_sell_in(item) 
     end
@@ -28,15 +28,7 @@ class GildedRose
 
   private
 
-  def decrease_quality(item)
-    item.quality -= 1 if item.quality > MIN_QUALITY
-  end
-
   def update_sell_in(item)
     item.sell_in -= 1 
-  end
-
-  def expired?(item)
-    item.sell_in <= 0
   end
 end
