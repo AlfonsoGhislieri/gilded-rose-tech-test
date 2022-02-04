@@ -191,7 +191,7 @@ describe Shop do
       expect do
         Shop.new(items).update_quality
       end.to change { @conjured_mana_cake.quality }.from(1).to(0)
-                                          .and change { @conjured_mana_cake.sell_in }.from(0).to(-1)
+                                          .and change { @conjured_mana_cake.sell_in }.from(10).to(9)
       
     end
   end

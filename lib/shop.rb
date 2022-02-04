@@ -2,6 +2,7 @@ require('item')
 require('items/aged_brie')
 require('items/backstage_pass')
 require('items/generic_item')
+require('items/conjured_mana_cake')
 
 class Shop
   def initialize(items)
@@ -17,6 +18,8 @@ class Shop
         AgedBrie.new(item).update
       elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
         BackstagePass.new(item).update
+      elsif item.name == 'Conjured Mana Cake'
+        ConjuredManaCake.new(item).update
       else
         GenericItem.new(item).update
       end
