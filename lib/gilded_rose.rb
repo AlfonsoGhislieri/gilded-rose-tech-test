@@ -5,7 +5,6 @@ class GildedRose
   MIN_QUALITY = 0
   def initialize(items)
     @items = items
-    @special_items = ['Aged Brie', 'Backstage passes to a TAFKAL80ETC concert', 'Sulfuras, Hand of Ragnaros']
   end
 
   def update_quality
