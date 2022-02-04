@@ -12,4 +12,5 @@ I really had to plan and take this challenge on by breaking it down in seperate 
 6. Create classes for each item in order to push the logic out of the shop class.
 7. Create a module to allow all classes to use same functions --> have access to same vars?
 8. Added tests and implemented the conjured goods into the code
+9. Final refactoring of shop class and update_quality method
 
