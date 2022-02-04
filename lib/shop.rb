@@ -1,7 +1,7 @@
 require('item')
-require('aged_brie')
-require('backstage_pass')
-require('generic_item')
+require('items/aged_brie')
+require('items/backstage_pass')
+require('items/generic_item')
 
 class GildedRose
   def initialize(items)
