@@ -1,6 +1,5 @@
 require_relative('item.rb')
 
-
 class GildedRose
   MAX_QUALITY = 50
   MIN_QUALITY = 0
@@ -21,11 +20,7 @@ class GildedRose
 
           # raises value of brie 
         elsif item.name == "Aged Brie"
-          if item.sell_in <= 0
-            item.quality += 2
-          else
-            item.quality += 1
-          end
+          item.sell_in <= 0 ? item.quality += 2 : item.quality += 1
 
         # update quality of backstage pass
         elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
