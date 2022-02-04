@@ -3,7 +3,7 @@ require('items/aged_brie')
 require('items/backstage_pass')
 require('items/generic_item')
 
-class GildedRose
+class Shop
   def initialize(items)
     @items = items
   end
