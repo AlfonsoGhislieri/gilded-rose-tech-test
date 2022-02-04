@@ -1,10 +1,13 @@
+require('helper_module')
+
 class GenericItem
+  include Helper
   def initialize(item)
     @item = item
   end
 
   def update
-    @item.quality -= 1 if @item.quality > 0
-    @item.quality -= 1 if @item.quality > 0 && @item.sell_in <= 0
+    decrease_quality(@item)
+    decrease_quality(@item) if expired?(@item)
   end
 end
