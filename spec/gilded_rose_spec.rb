@@ -34,6 +34,16 @@ describe GildedRose do
       end.to change { @aged_brie.quality }.from(5).to(7)
                                           .and change { @aged_brie.sell_in }.from(-1).to(-2)
     end
+    
+    it 'can never increase to more than 50' do
+      aged_brie = Item.new('Aged Brie', 5, 50)
+      items = [aged_brie]
+
+      expect do
+        GildedRose.new(items).update_quality
+      end.to_not change { aged_brie.quality }.from(50)
+      expect(aged_brie.sell_in).to eq(4)
+    end
   end
 
   context 'Sulfuras, Hand of Ragnaros' do
@@ -101,6 +111,18 @@ describe GildedRose do
       end.to change { @backstage.quality }.from(10).to(0)
                                           .and change { @backstage.sell_in }.from(0).to(-1)
     end
+
+    it 'can never increase to more than 50' do
+      @backstage.quality = 50
+      @backstage.sell_in = 11
+      
+      items = [@backstage]
+
+      expect do
+        GildedRose.new(items).update_quality
+      end.to_not change { @backstage.quality }.from(50)
+      expect(@backstage.sell_in).to eq(10)
+    end
   end
 
   context 'Generic Quality' do
@@ -135,16 +157,6 @@ describe GildedRose do
         GildedRose.new(items).update_quality
       end.to_not change { @test.quality }.from(0)
       expect(@test.sell_in).to eq(9)
-    end
-
-    it 'can never increase to more than 50' do
-      aged_brie = Item.new('Aged Brie', 5, 50)
-      items = [aged_brie]
-
-      expect do
-        GildedRose.new(items).update_quality
-      end.to_not change { aged_brie.quality }.from(50)
-      expect(aged_brie.sell_in).to eq(4)
     end
   end
 
