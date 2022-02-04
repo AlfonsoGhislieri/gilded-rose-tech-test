@@ -1,10 +1,13 @@
+require('helper_module')
+
 class AgedBrie
+  include Helper
   def initialize(item)
     @item = item
   end
 
   def update
-    @item.quality += 1 if @item.quality < 50
-    @item.quality += 1 if @item.quality < 50 && @item.sell_in <= 0
+    increase_quality(@item)
+    increase_quality(@item) if expired?(@item)
   end
 end

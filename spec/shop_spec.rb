@@ -1,4 +1,4 @@
-require('gilded_rose')
+require('shop')
 
 describe GildedRose do
   context 'Aged Brie' do
