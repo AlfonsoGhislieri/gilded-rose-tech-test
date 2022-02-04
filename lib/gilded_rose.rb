@@ -5,16 +5,16 @@ class GildedRose
   MIN_QUALITY = 0
   def initialize(items)
     @items = items
+    @special_items = ["Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"]
   end
 
   def update_quality()
     @items.each do |item|
       if item.quality < MAX_QUALITY && item.quality > MIN_QUALITY
-        #check for everything thats not Aged brie, pass or sulfuras --> lowers quality
-        if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" && item.name != "Sulfuras, Hand of Ragnaros"
+        #check for not a special item
+        if !@special_items.any?(item.name)
+          item.quality = item.quality - 1
           if item.sell_in <= 0 && item.quality > MIN_QUALITY
-            item.quality = item.quality - 2
-          else
             item.quality = item.quality - 1
           end
 
