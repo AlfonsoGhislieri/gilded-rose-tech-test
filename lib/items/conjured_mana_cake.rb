@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require('helper_module')
+require_relative('../helper_module.rb')
 
 class ConjuredManaCake
   include Helper

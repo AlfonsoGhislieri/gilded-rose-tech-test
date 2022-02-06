@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require('item')
-require('items/aged_brie')
-require('items/backstage_pass')
-require('items/generic_item')
-require('items/conjured_mana_cake')
+require_relative('./item')
+require_relative('./items/aged_brie')
+require_relative('./items/backstage_pass')
+require_relative('./items/generic_item')
+require_relative('./items/conjured_mana_cake')
 
 class Shop
   def initialize(items)
